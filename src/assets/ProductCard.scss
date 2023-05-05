@@ -1,0 +1,40 @@
+$navbar-highlight: rgba(2, 131, 131, 0.795); //rgba(1, 255, 255, 0.795);
+.card-item {
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(34, 32, 32, 0.2);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+    border: 1px solid $navbar-highlight;
+    box-shadow: 0 1px 8px $navbar-highlight;
+  }
+  .delete-checkbox {
+    position: absolute;
+    cursor: pointer;
+    margin: 10px;
+    font: inherit;
+    width: 1.15em;
+    height: 1.15em;
+  }
+  .card-content {
+    padding: 20px;
+    text-align: center;
+
+    .card-title {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .card-description {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  }
+}
