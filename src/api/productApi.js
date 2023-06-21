@@ -6,7 +6,7 @@ const productApi = axios.create({
   headers: {
     "Content-Type": "application/json",
     // Add any other default headers you need
-    Authorization: "Bearer your_token",
+    //Authorization: "Bearer your_token",
   },
 }); //"http://localhost:8080/" });
 

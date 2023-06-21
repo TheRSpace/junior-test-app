@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import TypeSwitcher from "./TypeSwitcher";
 import { useCheckSku, createProduct } from "../api/productApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -101,6 +101,8 @@ export default function CreateProduct() {
         attributes: productValues.attributes,
       });
       //}
+    } else {
+      console.log("adw");
     }
   };
   const handleCancel = () => {
@@ -142,16 +144,16 @@ export default function CreateProduct() {
     setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
 
-  useEffect(() => {
-    if (isMounted.current) {
-      validateSku();
-    }
-  }, [productValues.sku]);
-  useEffect(() => {
-    if (isMounted.current) {
-      validateName();
-    }
-  }, [productValues.name]);
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     validateSku();
+  //   }
+  // }, [productValues.sku]);
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     validateName();
+  //   }
+  // }, [productValues.name]);
 
   const validateForm = (inputType) => {
     let err = {};
@@ -209,11 +211,15 @@ export default function CreateProduct() {
     // }
     setProductValueError((prevErr) => ({ ...prevErr, ...err }));
     //setProductValueError({ ...err });
-
-    if (Object.keys(err).length === 0) {
+    console.log(err);
+    //console.log(err.every((item) => item.sku === ""));
+    let valueArray = Object.values(err);
+    valueArray.every((x) => x === "");
+    if (valueArray.every((x) => x === "")) {
       //return true;
       setValidated(true);
     } else {
+      //console.log(Object.keys(err).length);
       setValidated(false);
       //return false;
     }
@@ -226,7 +232,7 @@ export default function CreateProduct() {
       type: "text",
       placeholder: "Product SKU",
       label: "SKU",
-      pattern: "^[a-zA-Z0-9-]+$",
+      pattern: "^[a-zA-Z0-9]+$",
       //patternErrorMessage: getProductValueError("sku"),
       required: true,
       onChange: handleChange,
