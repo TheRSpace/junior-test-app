@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import TypeSwitcher from "./TypeSwitcher";
-import { checkSku, createProduct } from "../api/productApi";
-import { useMutation } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useCheckSku, createProduct } from "../api/productApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FormInput from "./FormInput";
 import ToCurrency from "./ToCurrency";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
-import { useCheckSku } from "../api/productApi";
-import RenderQuery from "./RenderQuery";
+import { useNavigate } from "react-router-dom";
+import validations from "./validations";
 
 export default function CreateProduct() {
   const [productValueError, setProductValueError] = useState({});
-
+  const [validated, setValidated] = useState(false);
+  const isMounted = useMountedRef();
   const [productValues, setProductValues] = useState({
     sku: "",
     name: "",
@@ -26,9 +23,6 @@ export default function CreateProduct() {
   //const { data, isError, refetch } = useCheckSku(productValues.sku);
   //const skuQuery = useQuery({ queryKey: ["product", productValues.sku], queryFn: checkSku }, { enabled: false, retry: false });
   //const validate = checkSku(productValues.sku);
-  if (productValues?.sku) {
-  }
-  const checkSku = useCheckSku(productValues.sku);
 
   const queryClient = useQueryClient();
   //Create mutation for posting data
@@ -38,7 +32,7 @@ export default function CreateProduct() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("products");
-      navigate("/");
+      navigate("/junior-test-app/");
     },
     onError: (error) => {
       if (createProductMutation.error.response && createProductMutation.error.response.status === 400) {
@@ -84,28 +78,33 @@ export default function CreateProduct() {
     //setProductValues({ ...productValues, [name]: value });
     setProductValues((prevProduct) => ({ ...prevProduct, [name]: value }));
   };
+  // useEffect(() => {
+  //   if (productValues.sku.length > 0) {
+  //     validateForm();
+  //   }
+  // }, [productValues]);
 
   const handleBlur = (e) => {
-    validateForm(e.target.name);
+    //validateForm(e.target.name);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let isValid = validateForm();
+    validateForm();
     //console.log(Object.keys(productValueError).length);
-    if (isValid) {
-      if (checkSku.data?.valid) {
-        createProductMutation.mutateAsync({
-          sku: productValues.sku,
-          name: productValues.name,
-          price: productValues.price.replace(/[^0-9,.-]/, ""),
-          type_name: productValues.type,
-          attributes: productValues.attributes,
-        });
-      }
+    if (validated) {
+      //if (checkSku.data?.valid) {
+      createProductMutation.mutateAsync({
+        sku: productValues.sku,
+        name: productValues.name,
+        price: productValues.price.replace(/[^0-9,.-]/, ""),
+        type_name: productValues.type,
+        attributes: productValues.attributes,
+      });
+      //}
     }
   };
   const handleCancel = () => {
-    navigate("/");
+    navigate("/junior-test-app/");
   };
 
   const handleAttribute = (key, attributes) => {
@@ -118,68 +117,108 @@ export default function CreateProduct() {
       return regex;
     }
   };
-  const validateForm = (inputType) => {
-    let err = {}; //productValueError;
-    if (inputType === "sku") {
-      err.sku = "";
-      if (!productValues.sku) {
-        err.sku = "SKU required";
-        //setProductValueError({ ...err });
-      } else if (!productValues.sku.match(getRegex(inputType))) {
-        err.sku = "SKU forma invalid we accept only numbers or symbol: -";
-      } else if (!checkSku.data?.valid) {
-        err.sku = "SKU already exists in database";
-      }
-    }
-    if (inputType === "name") {
-      err.name = "";
-      if (!productValues.name) {
-        err.name = "Name required";
-      }
-    }
 
-    if (inputType === "price") {
-      err.price = "";
-      if (!productValues.price) {
-        err.price = "Price required";
-      }
+  let checkSku = useCheckSku(productValues.sku);
+
+  const validateSku = () => {
+    let err = {};
+    err.sku = "";
+    if (!productValues.sku) {
+      err.sku = "SKU required";
+      //setProductValueError({ ...err });
+    } else if (!productValues.sku.match(getRegex("sku"))) {
+      err.sku = "SKU format invalid we accept only numbers or symbol: -";
+    } else if (!checkSku.data?.valid && checkSku.data !== undefined) {
+      err.sku = "SKU already exists in database";
     }
-    if (inputType === "type") {
-      err.type = "";
-      if (!productValues.type) {
-        err.type = "Choosing a type required";
-      }
+    setProductValueError((prevErr) => ({ ...prevErr, ...err }));
+  };
+  const validateName = () => {
+    let err = {};
+    err.name = "";
+    if (!productValues.name) {
+      err.name = "Name required";
     }
-    if (inputType === "height") {
-      err.height = "";
-      if (!productValues.attributes.height) {
-        err.height = "Height required";
-      }
+    setProductValueError((prevErr) => ({ ...prevErr, ...err }));
+  };
+
+  useEffect(() => {
+    if (isMounted.current) {
+      validateSku();
     }
-    if (inputType === "width") {
-      err.width = "";
-      if (!productValues.attributes.width) {
-        err.width = "Width required";
-      }
+  }, [productValues.sku]);
+  useEffect(() => {
+    if (isMounted.current) {
+      validateName();
     }
-    if (inputType === "length") {
-      err.length = "";
-      if (!productValues.attributes.length) {
-        err.length = "Length required";
-      }
-    }
+  }, [productValues.name]);
+
+  const validateForm = (inputType) => {
+    let err = {};
+    err = validations(productValues, checkSku); //productValueError;
+    //if (inputType === "sku") {
+    // err.sku = "";
+    // console.log(checkSku.data);
+    // if (!productValues.sku) {
+    //   err.sku = "SKU required";
+    //   //setProductValueError({ ...err });
+    // } else if (!productValues.sku.match(getRegex(inputType))) {
+    //   err.sku = "SKU format invalid we accept only numbers or symbol: -";
+    // } else if (!checkSku.data?.valid && checkSku.data !== undefined) {
+    //   err.sku = "SKU already exists in database";
+    // }
+    //validateSku();
+    //validateName();
+    //}
+    // if (inputType === "name") {
+    //   err.name = "";
+    //   if (!productValues.name) {
+    //     err.name = "Name required";
+    //   }
+    // }
+
+    // if (inputType === "price") {
+    //   err.price = "";
+    //   if (!productValues.price) {
+    //     err.price = "Price required";
+    //   }
+    // }
+    // if (inputType === "type") {
+    //   err.type = "";
+    //   if (!productValues.type) {
+    //     err.type = "Choosing a type required";
+    //   }
+    // }
+    // if (inputType === "height") {
+    //   err.height = "";
+    //   if (!productValues.attributes.height) {
+    //     err.height = "Height required";
+    //   }
+    // }
+    // if (inputType === "width") {
+    //   err.width = "";
+    //   if (!productValues.attributes.width) {
+    //     err.width = "Width required";
+    //   }
+    // }
+    // if (inputType === "length") {
+    //   err.length = "";
+    //   if (!productValues.attributes.length) {
+    //     err.length = "Length required";
+    //   }
+    // }
     setProductValueError((prevErr) => ({ ...prevErr, ...err }));
     //setProductValueError({ ...err });
 
     if (Object.keys(err).length === 0) {
-      return true;
+      //return true;
+      setValidated(true);
     } else {
-      return false;
+      setValidated(false);
+      //return false;
     }
   };
-  // const getProductValueError = (name) => {
-  //   return productValueError[name];
-  // };
+
   const inputs = [
     {
       id: 1,
@@ -340,6 +379,15 @@ export default function CreateProduct() {
     </div>
   );
 }
+const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    setTimeout(() => {
+      mountedRef.current = true;
+    }, 0);
+  }, []);
+  return mountedRef;
+};
 /* <div>
     {Object.keys(productInputs).map((key) => {
       <div>

@@ -4,7 +4,7 @@ import Home from "./pages/Home.js";
 import ListProducts from "./components/ProductList";
 import ProductAdd from "./pages/ProductAdd";
 import Navbar from "./components/Navbar";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {
@@ -22,11 +22,11 @@ function App() {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/",
+          path: "/junior-test-app/",
           element: <Home />,
         },
         {
-          path: "/add/products",
+          path: "/junior-test-app/add/products",
           element: <ProductAdd />,
         },
       ],
@@ -38,21 +38,20 @@ function App() {
       <div className="App-header">
         <RouterProvider router={router} />
       </div>
-
-      {/* <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/add/product">Add</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/add/product" element={<ProductAdd />} />
-        </Routes>
-      </BrowserRouter> */}
     </>
   );
 }
 
 export default App;
+// {/* <BrowserRouter>
+//         <nav>
+//           <ul>
+//             <li>
+//               <Link to="/add/product">Add</Link>
+//             </li>
+//           </ul>
+//         </nav>
+//         <Routes>
+//           <Route path="/add/product" element={<ProductAdd />} />
+//         </Routes>
+//       </BrowserRouter> */}

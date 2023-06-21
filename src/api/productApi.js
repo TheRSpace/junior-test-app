@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const productApi = axios.create({ baseURL: "https://raimondsjuniortestapp.000webhostapp.com/" }); //"http://localhost:8080/" });
+const productApi = axios.create({ baseURL: "https://raimondsjuniortestapp.000webhostapp.com" }); //"http://localhost:8080/" });
 
 // export interface Product {
 //   id: number;
