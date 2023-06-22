@@ -4,7 +4,7 @@ import axios from "axios";
 const productApi = axios.create({
   baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
   headers: {
-    "Content-Type": "application/octet-stream",
+    //"Content-Type": "application/octet-stream",
     // Add any other default headers you need
     //Authorization: "Bearer your_token",
   },
@@ -50,7 +50,7 @@ export const createProduct = async (product) => {
     response = productApi
       .post("/product", product, {
         headers: {
-          "Content-Type": "application/json", // Set the desired content type for this specific request
+          "Content-Type": "text/plain", // Set the desired content type for this specific request
           // Add any other headers if needed
         },
       })
@@ -61,7 +61,7 @@ export const createProduct = async (product) => {
       .catch((error) => {
         console.log("failed to post data!");
       });
-    return response;
+    //return response;
   } catch (error) {
     //throw new Error(`Failed to create product.${response.data}`);
     throw new Error(response.data);

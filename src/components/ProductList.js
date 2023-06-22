@@ -9,7 +9,7 @@ export default function ProductList() {
   // const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState([]);
   //const { isLoading, isError, error, data: products } = useQuery("products", readProducts);
-  const productQuery = useQuery({ queryKey: ["products"], queryFn: readProducts });
+  const productQuery = useQuery({ queryKey: ["products"], queryFn: readProducts }, { refetchOnWindowFocus: true });
 
   // const addProductMutation = useMutation(createProduct, {
   //   onSuccecss: () => queryClient.invalidateQueries("products"), //invalidates cache and refetch

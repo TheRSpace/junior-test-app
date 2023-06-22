@@ -35,13 +35,13 @@ export default function CreateProduct() {
       navigate("/junior-test-app/");
     },
     onError: (error) => {
-      if (createProductMutation.error.response && createProductMutation.error.response.status === 400) {
-        // handle the 400 error
-        console.error("Bad Request:", error.response.data);
-      } else {
-        // handle other errors
-        console.error("An error occurred:", error);
-      }
+      // if (createProductMutation.error.response && createProductMutation.error.response.status === 400) {
+      //   // handle the 400 error
+      //   console.error("Bad Request:", error.response.data);
+      // } else {
+      //   // handle other errors
+      //   console.error("An error occurred:", error);
+      // }
     },
   });
   let navigate = useNavigate();
@@ -90,48 +90,51 @@ export default function CreateProduct() {
   const handleSubmit = (e) => {
     e.preventDefault();
     validateForm();
-    // //console.log(Object.keys(productValueError).length);
+
+    if (validated) {
+      //if (checkSku.data?.valid) {
+      createProductMutation.mutateAsync(
+        JSON.stringify({
+          sku: productValues.sku,
+          name: productValues.name,
+          price: productValues.price.replace(/[^0-9,.-]/, ""),
+          type_name: productValues.type,
+          attributes: productValues.attributes,
+        })
+      );
+      queryClient.invalidateQueries("products");
+      //}
+    } else {
+      console.log("Data not valid.");
+    }
+
+    //TODO! Version 2
     // if (validated) {
-    //   //if (checkSku.data?.valid) {
-    //   createProductMutation.mutateAsync({
+    //   const data = {
     //     sku: productValues.sku,
     //     name: productValues.name,
     //     price: productValues.price.replace(/[^0-9,.-]/, ""),
     //     type_name: productValues.type,
     //     attributes: productValues.attributes,
-    //   });
-    //   //}
-    // } else {
-    //   console.log("adw");
+    //   };
+    //   console.log(JSON.stringify(data));
+    //   fetch("https://raimondsjuniortestapp.000webhostapp.com/product", {
+    //     method: "POST",
+    //     // headers: {
+    //     //   "Content-Type": "application/json",
+    //     // },
+    //     body: JSON.stringify(data),
+    //   })
+    //     .then((response) => {
+    //       // Handle the response
+    //       //console.log(response);
+    //       navigate("/junior-test-app/");
+    //     })
+    //     .catch((error) => {
+    //       // Handle any errors
+    //       console.log("Failed to post product!");
+    //     });
     // }
-
-    //TODO! Version 2
-    if (validated) {
-      const data = {
-        sku: productValues.sku,
-        name: productValues.name,
-        price: productValues.price.replace(/[^0-9,.-]/, ""),
-        type_name: productValues.type,
-        attributes: productValues.attributes,
-      };
-      console.log(data);
-      fetch("https://raimondsjuniortestapp.000webhostapp.com/product", {
-        method: "POST",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          // Handle the response
-          console.log(response);
-          navigate("/junior-test-app/");
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.log("Failed to post product!");
-        });
-    }
   };
   const handleCancel = () => {
     navigate("/junior-test-app/");
@@ -172,16 +175,16 @@ export default function CreateProduct() {
     setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
 
-  // useEffect(() => {
-  //   if (isMounted.current) {
-  //     validateSku();
-  //   }
-  // }, [productValues.sku]);
-  // useEffect(() => {
-  //   if (isMounted.current) {
-  //     validateName();
-  //   }
-  // }, [productValues.name]);
+  useEffect(() => {
+    if (isMounted.current) {
+      validateSku();
+    }
+  }, [productValues.sku]);
+  useEffect(() => {
+    if (isMounted.current) {
+      validateName();
+    }
+  }, [productValues.name]);
 
   const validateForm = (inputType) => {
     let err = {};
@@ -239,13 +242,13 @@ export default function CreateProduct() {
     // }
     setProductValueError((prevErr) => ({ ...prevErr, ...err }));
     //setProductValueError({ ...err });
-    console.log(err);
+    //console.log(err);
     //console.log(err.every((item) => item.sku === ""));
     let valueArray = Object.values(err);
-    valueArray.every((x) => x === "");
+    //valueArray.every((x) => x === "");
     if (valueArray.every((x) => x === "")) {
-      //return true;
       setValidated(true);
+      return true;
     } else {
       //console.log(Object.keys(err).length);
       setValidated(false);
