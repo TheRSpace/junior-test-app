@@ -90,19 +90,41 @@ export default function CreateProduct() {
   const handleSubmit = (e) => {
     e.preventDefault();
     validateForm();
-    //console.log(Object.keys(productValueError).length);
+    // //console.log(Object.keys(productValueError).length);
+    // if (validated) {
+    //   //if (checkSku.data?.valid) {
+    //   createProductMutation.mutateAsync({
+    //     sku: productValues.sku,
+    //     name: productValues.name,
+    //     price: productValues.price.replace(/[^0-9,.-]/, ""),
+    //     type_name: productValues.type,
+    //     attributes: productValues.attributes,
+    //   });
+    //   //}
+    // } else {
+    //   console.log("adw");
+    // }
     if (validated) {
-      //if (checkSku.data?.valid) {
-      createProductMutation.mutateAsync({
+      const data = {
         sku: productValues.sku,
         name: productValues.name,
         price: productValues.price.replace(/[^0-9,.-]/, ""),
         type_name: productValues.type,
         attributes: productValues.attributes,
-      });
-      //}
-    } else {
-      console.log("adw");
+      };
+      fetch("https://raimondsjuniortestapp.000webhostapp.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          // Handle the response
+        })
+        .catch((error) => {
+          // Handle any errors
+        });
     }
   };
   const handleCancel = () => {
