@@ -104,6 +104,8 @@ export default function CreateProduct() {
     // } else {
     //   console.log("adw");
     // }
+
+    //TODO! Version 2
     if (validated) {
       const data = {
         sku: productValues.sku,
@@ -112,18 +114,22 @@ export default function CreateProduct() {
         type_name: productValues.type,
         attributes: productValues.attributes,
       };
-      fetch("https://raimondsjuniortestapp.000webhostapp.com", {
+      console.log(data);
+      fetch("https://raimondsjuniortestapp.000webhostapp.com/product", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
         body: JSON.stringify(data),
       })
         .then((response) => {
           // Handle the response
+          console.log(response);
+          navigate("/junior-test-app/");
         })
         .catch((error) => {
           // Handle any errors
+          console.log("Failed to post product!");
         });
     }
   };
