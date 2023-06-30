@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const productApi = axios.create({
-  baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
+  //baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
+  baseURL: "https://ec2-16-16-24-161.eu-north-1.compute.amazonaws.com",
   headers: {
     //"Content-Type": "application/octet-stream",
     // Add any other default headers you need
@@ -81,6 +82,23 @@ export const updateProduct = async (product, id) => {
   return await productApi.patch(`/product/${id}`, product);
 };
 export const deleteProduct = async (id) => {
-  return await productApi.delete(`/product/${id}`, id);
+  return await productApi.delete(`/product/?id=${id}`);
+};
+export const deleteProduct2 = async (id) => {
+  //var response;
+  try {
+    const response = await productApi.delete("/products", {
+      data: id,
+      headers: {
+        //"Content-Type": "application/json", // Set the desired content type for this specific request
+        "Content-Type": "text/plain",
+      },
+    });
+    return response;
+  } catch (error) {
+    //throw new Error(`Failed to create product.${response.data}`);
+    console.log("failed deleting");
+    throw error;
+  }
 };
 export default productApi;

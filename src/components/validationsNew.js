@@ -49,10 +49,11 @@ const validationsNew = (productValues, checkSku) => {
   const validateHeight = () => {
     //let err = {};
     attributeErr.height = "";
+
     if (!productValues.attributes.height) {
       attributeErr.height = "Height required";
-    } else if (productValues.attributes.height === "0") {
-      attributeErr.height = "height must be larger than 0";
+    } else if (+productValues.attributes.height <= 0) {
+      attributeErr.height = "height must be positive and larger than 0";
     }
     //setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
@@ -61,8 +62,8 @@ const validationsNew = (productValues, checkSku) => {
     attributeErr.width = "";
     if (!productValues.attributes.width) {
       attributeErr.width = "Width required";
-    } else if (productValues.attributes.width === "0") {
-      attributeErr.width = "Width must be larger than 0";
+    } else if (+productValues.attributes.width <= 0) {
+      attributeErr.width = "Width must be positive and larger than 0";
     }
 
     // setProductValueError((prevErr) => ({ ...prevErr, ...err }));
@@ -72,8 +73,8 @@ const validationsNew = (productValues, checkSku) => {
     attributeErr.length = "";
     if (!productValues.attributes.length) {
       attributeErr.length = "Length required";
-    } else if (productValues.attributes.length === "0") {
-      attributeErr.length = "Length must be larger than 0";
+    } else if (+productValues.attributes.length === 0) {
+      attributeErr.length = "Length must be positive and larger than 0";
     }
     //setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
@@ -82,8 +83,8 @@ const validationsNew = (productValues, checkSku) => {
     attributeErr.size = "";
     if (!productValues.attributes.size) {
       attributeErr.size = "DVD size required";
-    } else if (productValues.attributes.size === "0") {
-      attributeErr.size = "DVD size must be larger than 0";
+    } else if (+productValues.attributes.size <= 0) {
+      attributeErr.size = "DVD size must be positive and larger than 0";
     }
     //setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
@@ -92,8 +93,8 @@ const validationsNew = (productValues, checkSku) => {
     attributeErr.weight = "";
     if (!productValues.attributes.weight) {
       attributeErr.weight = "Weight required";
-    } else if (productValues.attributes.weight === "0") {
-      attributeErr.weight = "Weight must be larger than 0";
+    } else if (+productValues.attributes.weight <= 0) {
+      attributeErr.weight = "Weight must be positive and larger than 0";
     }
     //setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };

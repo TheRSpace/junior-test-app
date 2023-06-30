@@ -99,7 +99,7 @@ export default function CreateProduct() {
           attributes: productValues.attributes,
         })
       );
-      queryClient.invalidateQueries("products");
+      //queryClient.invalidateQueries("products");
       // }
     } else {
       console.log("Data not valid.");
@@ -245,7 +245,6 @@ export default function CreateProduct() {
       //onKeyUp: validateForm,
     },
   ];
-  //TODO
 
   return (
     <div className="create-product-container">
