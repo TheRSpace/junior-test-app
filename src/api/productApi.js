@@ -45,26 +45,18 @@ export const createProduct2 = async (product) => {
 };
 //TODO Version 2
 export const createProduct = async (product) => {
-  var response;
+  //var response;
   try {
-    response = productApi
-      .post("/product", product, {
-        headers: {
-          "Content-Type": "text/plain", // Set the desired content type for this specific request
-          // Add any other headers if needed
-        },
-      })
-      .then((response) => {
-        return response;
-        // Handle the response
-      })
-      .catch((error) => {
-        console.log("failed to post data!");
-      });
-    //return response;
+    const response = await productApi.post("/product", product, {
+      headers: {
+        "Content-Type": "text/plain", // Set the desired content type for this specific request
+        // Add any other headers if needed
+      },
+    });
+    return response;
   } catch (error) {
     //throw new Error(`Failed to create product.${response.data}`);
-    throw new Error(response.data);
+    throw error;
   }
 };
 
@@ -73,10 +65,15 @@ export const createProduct = async (product) => {
 //   return response.data;
 // };
 export const checkSku = async (sku) => {
-  const response = await productApi.get(`/validate/?sku=${sku}`);
-  return response.data;
+  // const response = await productApi.get(`/validate/?sku=${sku}`);
+  // return response.data;
+  return productApi.get(`/validate/?sku=${sku}`).then((response) => response.data);
 };
 export const useCheckSku = (sku) => {
+  // var skuState = useQuery(["sku", sku], () => checkSku(sku), { enabled: !!sku, retry: false });
+  // if (!skuState.data?.valid && skuState.data !== undefined) {
+  //   return true;
+  // }
   return useQuery(["sku", sku], () => checkSku(sku), { enabled: !!sku, retry: false });
 };
 

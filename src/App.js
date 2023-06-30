@@ -1,10 +1,9 @@
-import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import "./assets/App.scss";
 import Home from "./pages/Home.js";
-import ListProducts from "./components/ProductList";
 import ProductAdd from "./pages/ProductAdd";
 import Navbar from "./components/Navbar";
-import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {

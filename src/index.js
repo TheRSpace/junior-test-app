@@ -4,7 +4,6 @@ import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import "./assets/index.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // const router = createBrowserRouter([

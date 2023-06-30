@@ -8,7 +8,7 @@ export default function ErrorPage() {
   console.error(error);
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <section className="error">
         <div id="error-page">
           <div className="errorpage-logo">

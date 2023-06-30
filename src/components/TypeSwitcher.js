@@ -38,7 +38,7 @@ const TypeSwitcher = (props) => {
         pattern: "\\d+(\\.\\d{1,2})?",
         step: "0.01",
         min: "0",
-        required: true,
+        //required: true,
         onChange: handleChange,
         onBlur: onBlur,
         errorMessage: "Height must be a positive number",
@@ -52,7 +52,7 @@ const TypeSwitcher = (props) => {
         pattern: "\\d+(\\.\\d{1,2})?",
         step: "0.01",
         min: "0",
-        required: true,
+        //required: true,
         onChange: handleChange,
         onBlur: onBlur,
       },
@@ -65,7 +65,7 @@ const TypeSwitcher = (props) => {
         pattern: "\\d+(\\.\\d{1,2})?",
         step: "0.01",
         min: "0",
-        required: true,
+        //required: true,
         onChange: handleChange,
         onBlur: onBlur,
       },
@@ -80,7 +80,7 @@ const TypeSwitcher = (props) => {
         pattern: "\\d+(\\.\\d{1,2})?",
         step: "0.01",
         min: "0",
-        required: true,
+        //required: true,
         onChange: handleChange,
         onBlur: onBlur,
       },
@@ -95,7 +95,7 @@ const TypeSwitcher = (props) => {
         pattern: "\\d+(\\.\\d{1,2})?",
         step: "0.01",
         min: "0",
-        required: true,
+        //required: true,
         onChange: handleChange,
         onBlur: onBlur,
       },
@@ -114,7 +114,6 @@ const TypeSwitcher = (props) => {
       </select> */}
       <SelectComponent productTypeQuery={typeQuery} selectedOption={selectedOption} id="productType" name="type" onChange={handleSelect} onBlur={onBlur} />
       <ValidationMessage errorMessage={productValueError["type"]} />
-
       {selectedOption && (
         <>
           {Object.keys(typeInputs)?.map((key, index) => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 
-const validations = (productValues, checkSku) => {
+const validations = (productValues, checkSku, inputName) => {
   //const [productValueError, setProductValueError] = useState({});
   let err = {};
   //validateForm();
@@ -11,8 +11,8 @@ const validations = (productValues, checkSku) => {
     if (!productValues.sku) {
       err.sku = "SKU required";
       //setProductValueError({ ...err });
-      // } else if (!productValues.sku.match(getRegex("sku"))) {
-      //   err.sku = "SKU format invalid we accept only numbers or symbol: -";
+    } else if (!productValues.sku.match(/^[a-zA-Z0-9-]+$/gi)) {
+      err.sku = "SKU format invalid we accept only numbers or symbol: -";
     } else if (!checkSku.data?.valid && checkSku.data !== undefined) {
       err.sku = "SKU already exists in database";
     }
@@ -29,8 +29,11 @@ const validations = (productValues, checkSku) => {
   const validatePrice = () => {
     //let err = {};
     err.price = "";
+    let price = productValues.price;
     if (!productValues.price) {
       err.price = "Price required";
+    } else if (price === "$0.00") {
+      err.price = "Price can't be 0";
     }
     //setProductValueError((prevErr) => ({ ...prevErr, ...err }));
   };
@@ -79,13 +82,25 @@ const validations = (productValues, checkSku) => {
   // } else if (!checkSku.data?.valid && checkSku.data !== undefined) {
   //   err.sku = "SKU already exists in database";
   // }
-  validateSku();
-  validateName();
-  validatePrice();
-  validateType();
-  validateHeight();
-  validateWidth();
-  validateLength();
+  // validateSku();
+  // validateName();
+  // validatePrice();
+  // validateType();
+  // validateHeight();
+  // validateWidth();
+  // validateLength();
+  if (inputName === "sku") {
+    validateSku();
+  }
+  if (inputName === "name") {
+    validateName();
+  }
+  if (inputName === "price") {
+    validatePrice();
+  }
+  if (inputName === "type") {
+    validateType();
+  }
   //}
   // if (inputType === "name") {
   //   err.name = "";
