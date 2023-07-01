@@ -96,7 +96,6 @@ export default function ProductList() {
       });
     }
   };
-  console.log(checkedValues);
   return (
     <>
       <section>

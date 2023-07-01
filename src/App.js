@@ -21,11 +21,11 @@ function App() {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/junior-test-app/",
+          path: "/",
           element: <Home />,
         },
         {
-          path: "/junior-test-app/add/products",
+          path: "/add/products",
           element: <ProductAdd />,
         },
       ],

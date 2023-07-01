@@ -37,7 +37,7 @@ export default function CreateProduct() {
       // if (error) {
       // } else {}
       queryClient.invalidateQueries("products");
-      navigate("/junior-test-app/");
+      navigate("/");
     },
     onError: (error) => {
       if (error.response && error?.response.status === 400) {
@@ -150,7 +150,7 @@ export default function CreateProduct() {
   // }, [productValues]);
 
   const handleCancel = () => {
-    navigate("/junior-test-app/");
+    navigate("/");
   };
 
   const handleAttribute = (key, attributes) => {

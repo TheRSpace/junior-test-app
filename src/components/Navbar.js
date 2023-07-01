@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container container">
-        <Link to={"/junior-test-app/"} className="navbar-logo" onClick={closeMobileMenu}>
+        <Link to={"/"} className="navbar-logo" onClick={closeMobileMenu}>
           <img src={logo} className="navbar-logo-img" alt="logo" onClick={closeMobileMenu} />
           Junior Test App
         </Link>
@@ -20,12 +20,12 @@ function Navbar() {
         </div>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <NavLink to={"/junior-test-app/"} className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>
+            <NavLink to={"/"} className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>
               Home
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to={"/junior-test-app/add/products"} className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>
+            <NavLink to={"/add/products"} className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>
               Add
             </NavLink>
           </li>
