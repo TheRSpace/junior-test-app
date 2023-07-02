@@ -3,7 +3,8 @@ import axios from "axios";
 
 const productApi = axios.create({
   //baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
-  baseURL: "https://ec2-16-16-24-161.eu-north-1.compute.amazonaws.com",
+  //baseURL: "https://ec2-16-16-24-161.eu-north-1.compute.amazonaws.com",
+  baseURL: "https://backend.raimondssierins.com",
   headers: {
     //"Content-Type": "application/octet-stream",
     // Add any other default headers you need
@@ -84,11 +85,11 @@ export const updateProduct = async (product, id) => {
 export const deleteProduct = async (id) => {
   return await productApi.delete(`/product/?id=${id}`);
 };
-export const deleteProduct2 = async (id) => {
+export const deleteProducts = async (ids) => {
   //var response;
   try {
     const response = await productApi.delete("/products", {
-      data: id,
+      data: ids,
       headers: {
         //"Content-Type": "application/json", // Set the desired content type for this specific request
         "Content-Type": "text/plain",

@@ -1,7 +1,7 @@
 {
   "name": "product-app",
   "version": "0.1.0",
-  "homepage": "https://therspace.github.io/junior-test-app",
+  "homepage": "https://www.raimondssierins.com",
   "private": true,
   "dependencies": {
     "@tanstack/react-query": "^4.28.0",

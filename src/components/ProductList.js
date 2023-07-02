@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { readProducts, deleteProduct, deleteProduct2 } from "../api/productApi";
+import { readProducts, deleteProducts } from "../api/productApi";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import "../assets/ProductList.scss";
@@ -24,8 +24,8 @@ export default function ProductList() {
   // });
   const queryClient = useQueryClient();
   const deleteProductMutation = useMutation({
-    mutationFn: (id) => {
-      return deleteProduct2(id);
+    mutationFn: (ids) => {
+      return deleteProducts(ids);
     },
     onSuccess: (data, error) => {
       console.log("Product deleted succesfully!");
@@ -61,7 +61,7 @@ export default function ProductList() {
     var id = 1;
     deleteProductMutation.mutateAsync(
       //JSON.stringify({
-      { id: checkedValues[0] }
+      { ids: checkedValues }
       //})
     );
   };
