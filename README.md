@@ -2,7 +2,7 @@
 
 ## :point_right: [JUNIOR-TEST-APP](https://www.raimondssierins.com) :point_left:
 
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -80,4 +80,4 @@ git push origin main (to publish the code)
 
 ## To deploy and build the code:
 
-npm run deploy
+npm run deploy -->
