@@ -29,7 +29,7 @@ export default function CreateProduct() {
       return createProduct(product);
     },
     onSuccess: (data, error) => {
-      console.log("worked");
+      console.log("worked", data);
       //const responseStatus = error?.response?.status;
       // if (error.response.status && error?.response?.status === 400) {
       //   console.log("Bad Requesting :", error.response.data);
@@ -85,7 +85,7 @@ export default function CreateProduct() {
     e.preventDefault();
     //setProductValueErrors(validateInput(productValues));
     setIsSubmit(true);
-
+    console.log(productValues.price.replace(/[^0-9.-]|(?<=\.\d{2}),/g, ""));
     // checkValidations();
     if ((await validateForm()) && isSubmit) {
       console.log("posted");
