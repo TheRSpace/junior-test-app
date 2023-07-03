@@ -3,13 +3,14 @@ import { readProducts, deleteProducts } from "../api/productApi";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import "../assets/ProductList.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductList() {
   // const [newProduct, setNewProduct] = useState("");
   // const queryClient = useQueryClient();
-  const [selectedIds, setSelectedIds] = useState({});
   const [checkedValues, setCheckedValues] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
   //const { isLoading, isError, error, data: products } = useQuery("products", readProducts);
   const productQuery = useQuery({ queryKey: ["products"], queryFn: readProducts }, { refetchOnWindowFocus: true });
 
@@ -28,7 +29,7 @@ export default function ProductList() {
       return deleteProducts(ids);
     },
     onSuccess: (data, error) => {
-      console.log("Product deleted succesfully!");
+      console.log("Products deleted succesfully!");
       setCheckedValues([]);
       //const responseStatus = error?.response?.status;
       // if (error.response.status && error?.response?.status === 400) {
@@ -37,7 +38,7 @@ export default function ProductList() {
       // if (error) {
       // } else {}
       queryClient.invalidateQueries("products");
-      //navigate("/junior-test-app/");
+      navigate("/");
     },
     onError: (error) => {
       if (error.response && error?.response.status === 400) {
@@ -50,24 +51,14 @@ export default function ProductList() {
     },
   });
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   addProductMutation.mutate({ userid: 1, title: newProduct, completed: false });
-  //   setNewProduct("");
-  // };
-
   //handle mass delete
   const handleMassDelete = () => {
-    var id = 1;
     deleteProductMutation.mutateAsync(
       //JSON.stringify({
       { ids: checkedValues }
       //})
     );
   };
-
-  //handle product selection
-  const handleSelection = () => {};
 
   const handleCheckBox = (event) => {
     let checked = event.target.checked;
@@ -82,20 +73,7 @@ export default function ProductList() {
       });
     }
   };
-  const handleDivCheckBox = (value, checked) => {
-    //let checked = event.target.checked;
-    //let value = +event.target.value;
-    console.log("checking");
-    console.log(checked);
-    if (checked) {
-      //setCheckedValues((prevProduct) => ({ ...prevProduct, [name]: value }));
-      setCheckedValues([...checkedValues, value]);
-    } else {
-      setCheckedValues((prevData) => {
-        return [...prevData.filter((skill) => skill !== value)];
-      });
-    }
-  };
+
   return (
     <>
       <section>
@@ -105,9 +83,16 @@ export default function ProductList() {
           MASS DELETE
         </button>
         <div className="product-container">
-          {productQuery.data?.map((product, index) => <ProductCard key={index} isChecked={isChecked} checkedValues={checkedValues} product={product} onSelection={handleSelection} handleCheckBox={handleCheckBox} handleDivCheckBox={handleDivCheckBox} />) ?? (
+          {/* {productQuery?.data?.map((product, index) => <ProductCard key={index} isChecked={isChecked} checkedValues={checkedValues} product={product} onSelection={handleSelection} handleCheckBox={handleCheckBox} handleDivCheckBox={handleDivCheckBox} />) ?? (
             <div align="center">
               <h3>No products Found</h3>
+            </div>
+          )} */}
+          {Array.isArray(productQuery?.data) && productQuery.data.length > 0 ? (
+            productQuery.data.map((product, index) => <ProductCard key={index} isChecked={isChecked} checkedValues={checkedValues} product={product} handleCheckBox={handleCheckBox} />)
+          ) : (
+            <div align="center">
+              <h3>No products found</h3>
             </div>
           )}
         </div>

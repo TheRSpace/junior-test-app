@@ -1,6 +1,3 @@
-import { useState } from "react";
-import React from "react";
-
 const validationsNew = (productValues, checkSku) => {
   //const [productValueError, setProductValueError] = useState({});
   let err = {};

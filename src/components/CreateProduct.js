@@ -1,9 +1,9 @@
-import { React, useEffect, useState, useRef } from "react";
+import { React, useState } from "react";
 import TypeSwitcher from "./TypeSwitcher";
 import { useCheckSku, createProduct } from "../api/productApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import FormInput from "./FormInput";
-import ToCurrency from "./ToCurrency";
+import ToCurrency from "../components2/ToCurrency";
 import { useNavigate } from "react-router-dom";
 import validationsNew from "./validationsNew";
 
@@ -28,14 +28,8 @@ export default function CreateProduct() {
     mutationFn: (product) => {
       return createProduct(product);
     },
-    onSuccess: (data, error) => {
-      console.log("worked", data);
-      //const responseStatus = error?.response?.status;
-      // if (error.response.status && error?.response?.status === 400) {
-      //   console.log("Bad Requesting :", error.response.data);
-      //   //return;
-      // if (error) {
-      // } else {}
+    onSuccess: (data) => {
+      console.log(data);
       queryClient.invalidateQueries("products");
       navigate("/");
     },
@@ -45,7 +39,7 @@ export default function CreateProduct() {
         console.error("Bad Request:", error.response.data);
       } else {
         // handle other errors
-        //console.error("An error occurred:", error);
+        console.error("An error occurred:", error);
       }
     },
   });
@@ -83,71 +77,24 @@ export default function CreateProduct() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //setProductValueErrors(validateInput(productValues));
     setIsSubmit(true);
-    console.log(productValues.price.replace(/[^0-9.-]|(?<=\.\d{2}),/g, ""));
     // checkValidations();
-    if ((await validateForm()) && isSubmit) {
+    if (await validateForm()) {
       console.log("posted");
       //if (checkSku.data?.valid) {
       createProductMutation.mutateAsync(
         JSON.stringify({
           sku: productValues.sku,
           name: productValues.name,
-          price: productValues.price.replace(/[^0-9,.-]/, ""),
+          price: productValues.price.replace(/[^0-9.-]|(?<=\.\d{2}),/g, ""),
           type_name: productValues.type,
           attributes: productValues.attributes,
         })
       );
-      //queryClient.invalidateQueries("products");
-      // }
     } else {
       console.log("Data not valid.");
     }
-
-    //TODO! Version 2
-    // if (validated) {
-    //   const data = {
-    //     sku: productValues.sku,
-    //     name: productValues.name,
-    //     price: productValues.price.replace(/[^0-9,.-]/, ""),
-    //     type_name: productValues.type,
-    //     attributes: productValues.attributes,
-    //   };
-    //   console.log(JSON.stringify(data));
-    //   fetch("https://raimondsjuniortestapp.000webhostapp.com/product", {
-    //     method: "POST",
-    //     // headers: {
-    //     //   "Content-Type": "application/json",
-    //     // },
-    //     body: JSON.stringify(data),
-    //   })
-    //     .then((response) => {
-    //       // Handle the response
-    //       //console.log(response);
-    //       navigate("/junior-test-app/");
-    //     })
-    //     .catch((error) => {
-    //       // Handle any errors
-    //       console.log("Failed to post product!");
-    //     });
-    // }
   };
-  // useEffect(() => {
-  //   const validateAndSubmit = async () => {
-  //     if (isSubmit) {
-  //       if (await checkValidations()) {
-  //         //console.log(productValues);
-  //       }
-  //     }
-  //   };
-  //   //let valueArray = Object.values(productValueErrors);
-  //   //console.log(valueArray);
-  //   // if (checkValidations() && isSubmit) {
-  //   //   console.log(productValues);
-  //   // }
-  //   validateAndSubmit();
-  // }, [productValues]);
 
   const handleCancel = () => {
     navigate("/");
@@ -158,19 +105,10 @@ export default function CreateProduct() {
   };
 
   let checkSku = useCheckSku(productValues.sku);
-  // useEffect(() => {
-  //   //const checkSku = useCheckSku(productValues.sku);
-  //   console.log("state");
-
-  //   return () => {
-  //     // Perform any necessary cleanup tasks here
-  //   };
-  // }, [checkSku]);
 
   const validateForm = async () => {
     let err = {};
-    //const { name, value } = inputType.target;
-    err = validationsNew(productValues, checkSku); //productValueError;
+    err = validationsNew(productValues, checkSku);
 
     //setProductValueErrors((prevErr) => ({ ...prevErr, ...err }));
     setProductValueErrors({ ...err });
@@ -220,7 +158,7 @@ export default function CreateProduct() {
       name: "name",
       type: "text",
       placeholder: "Product name",
-      pattern: "[a-zA-Z]+",
+      //pattern: "[a-zA-Z]+",
       label: "Name",
       //patternErrorMessage: getProductValueError("name"), // "Name should only consist of letters",
       //required: true,
@@ -269,28 +207,3 @@ export default function CreateProduct() {
     </div>
   );
 }
-// const useMountedRef = () => {
-//   const mountedRef = useRef(false);
-//   useEffect(() => {
-//     setTimeout(() => {
-//       mountedRef.current = true;
-//     });
-//   }, []);
-//   return mountedRef;
-// };
-/* <div>
-    {Object.keys(productInputs).map((key) => {
-      <div>
-        {Object.keys(productInputs[key]).map((subkey) => {
-          <div>
-            {productInputs[key][subkey].map((input) => (
-              <div>
-                wdawdawdaw
-                <FormInput key={input.id} {...input} errorMessage={productValueError} value={productValues[input.name]} />
-              </div>
-            ))}
-          </div>;
-        })}
-      </div>;
-    })}
-  </div> */

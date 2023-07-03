@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useRef } from "react";
 import "../assets/ProductCard.scss";
 import ToCurrency from "./ToCurrency";
 
@@ -7,7 +6,6 @@ function ProductCard(props) {
   //const [checkedValues, setCheckedValues] = useState([]);
   var { id, sku, name, price, type_name, size, weight, width, height, length } = props.product;
   const handleCheckBox = props.handleCheckBox;
-  const handleDivCheckBox = props.handleDivCheckBox;
   var checkedValues = props.checkedValues;
   var attributes = null;
 
@@ -18,8 +16,6 @@ function ProductCard(props) {
   } else {
     attributes = `Weight: ${weight} kg`;
   }
-  const [isChecked, setIsChecked] = useState(false);
-  const checkboxRef = useRef(null);
 
   const handleClick = () => {
     const event = {
