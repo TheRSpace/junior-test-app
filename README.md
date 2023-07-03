@@ -1,6 +1,6 @@
 ## My application here:
 
-## [JUNIOR-TEST-APP](https://www.raimondssierins.com)
+## :point_right: [JUNIOR-TEST-APP](https://www.raimondssierins.com) :point_left:
 
 # Getting Started with Create React App
 
