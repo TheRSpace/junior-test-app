@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/ProductCard.scss";
-import ToCurrency from "./ToCurrency";
+import ToCurrency from "../components2/ToCurrency";
 
 function ProductCard(props) {
   //const [checkedValues, setCheckedValues] = useState([]);
