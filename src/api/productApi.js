@@ -5,6 +5,7 @@ const productApi = axios.create({
   //baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
   //baseURL: "https://ec2-16-16-24-161.eu-north-1.compute.amazonaws.com",
   baseURL: "https://backend.raimondssierins.com",
+  //baseURL: "http://localhost:8080/",
   headers: {
     //"Content-Type": "application/octet-stream",
     // Add any other default headers you need
