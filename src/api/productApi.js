@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const productApi = axios.create({
-  //baseURL: "https://raimondsjuniortestapp.000webhostapp.com",
-  //baseURL: "https://ec2-16-16-24-161.eu-north-1.compute.amazonaws.com",
   baseURL: "https://backend.raimondssierins.com",
   //baseURL: "http://localhost:8080/",
   headers: {
@@ -11,14 +9,8 @@ const productApi = axios.create({
     // Add any other default headers you need
     //Authorization: "Bearer your_token",
   },
-}); //"http://localhost:8080/" });
+});
 
-// export interface Product {
-//   id: number;
-//   sku: string;
-//   name: string;
-//   price: number;
-// }
 export const readProducts = async () => {
   const response = await productApi.get("/products");
   return response.data;
